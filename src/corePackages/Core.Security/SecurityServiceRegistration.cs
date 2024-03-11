@@ -15,36 +15,20 @@ public static class SecurityServiceRegistration
     public static IServiceCollection AddSecurityServices<TContext>(this IServiceCollection services, IConfiguration configuration)
         where TContext : DbContext
     {
-        services.Configure<DataProtectionTokenProviderOptions>(opt =>
-        {
-            opt.TokenLifespan = TimeSpan.FromHours(3);
+        services.ConfigureOptions<JwtOptionsSetup>();
+        services.ConfigureOptions<JwtBearerOptionsSetup>();
+        services.ConfigureOptions<AuthenticationOptionsSetup>();
+
+        services.AddAuthentication().AddJwtBearer();
+        services.AddAuthorization();
+
+        services.ConfigureApplicationCookie(o => {
+            o.ExpireTimeSpan = TimeSpan.FromDays(5);
+            o.SlidingExpiration = true;
         });
 
-        services.ConfigureOptions<JWTOptionsSetup>();
-
-        JwtOptions? tokenOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
-
-        services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-            .AddJwtBearer("Bearer", options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = tokenOptions?.Issuer,
-                    ValidateAudience = true,
-                    ValidAudience = tokenOptions?.Audience,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions?.SecurityKey!),
-                };
-            });
-
-        services.AddAuthorization();
+        services.Configure<DataProtectionTokenProviderOptions>(o =>
+            o.TokenLifespan = TimeSpan.FromHours(3));
 
         services.AddIdentity<User, Role>(options =>
         {

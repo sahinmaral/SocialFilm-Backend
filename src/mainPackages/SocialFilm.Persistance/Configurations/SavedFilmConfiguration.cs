@@ -18,5 +18,10 @@ public sealed class SavedFilmConfiguration : IEntityTypeConfiguration<SavedFilm>
             .WithMany()
             .HasForeignKey(sf => sf.UserId)
             .IsRequired();
+        
+        builder.HasOne(sf => sf.Film)
+            .WithMany(fd => fd.SavedFilms)
+            .HasForeignKey(sf => sf.FilmId)
+            .IsRequired();
     }
 }

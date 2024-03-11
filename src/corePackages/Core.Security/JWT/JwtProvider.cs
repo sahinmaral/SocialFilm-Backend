@@ -24,22 +24,20 @@ public class JwtProvider : IJwtProvider
     {
         var claims = new List<Claim>{
             new Claim(ClaimTypes.NameIdentifier,user.Id),
-            new Claim(ClaimTypes.Name,user.FirstName),
-            new Claim(ClaimTypes.Surname,user.LastName),
-            new Claim(JwtRegisteredClaimNames.Email,user.Email),
-            new Claim(JwtRegisteredClaimNames.UniqueName,user.UserName)
+            new Claim(ClaimTypes.Email,user.Email),
+            new Claim(JwtRegisteredClaimNames.Name,user.UserName)
         };
 
         var roles = (await _userManager.GetRolesAsync(user)).ToList();
 
         claims.AddRoles(roles.ToArray());
 
-        var expires = DateTime.Now.AddHours(_jwtOptions.AccessTokenExpiration);
+        var expires = DateTime.Now.AddHours(1);
 
         JwtSecurityToken jwtSecurityToken = new JwtSecurityToken(
-            issuer: _jwtOptions.Issuer,
-            audience: _jwtOptions.Audience,
-            claims: claims,
+            issuer : _jwtOptions.Issuer,
+            audience : _jwtOptions.Audience,
+            claims : claims,
             notBefore: DateTime.Now,
             expires: expires,
             signingCredentials: new SigningCredentials(

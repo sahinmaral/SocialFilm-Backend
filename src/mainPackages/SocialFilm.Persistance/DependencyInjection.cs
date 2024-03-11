@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialFilm.Application.Services.Repositories;
-using SocialFilm.Domain.Entities;
 using SocialFilm.Infrastructure.Repositories;
 using SocialFilm.Persistance.Context;
+using SocialFilm.Persistance.Repositories;
 
 namespace SocialFilm.Persistance;
 

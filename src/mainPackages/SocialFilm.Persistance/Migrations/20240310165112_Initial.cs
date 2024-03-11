@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SocialFilm.Persistance.Migrations
 {
     /// <inheritdoc />
@@ -21,8 +23,8 @@ namespace SocialFilm.Persistance.Migrations
                     Overview = table.Column<string>(type: "text", nullable: false),
                     PosterPath = table.Column<string>(type: "text", nullable: false),
                     BackdropPath = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,8 +37,8 @@ namespace SocialFilm.Persistance.Migrations
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,12 +67,12 @@ namespace SocialFilm.Persistance.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     MiddleName = table.Column<string>(type: "text", nullable: true),
                     LastName = table.Column<string>(type: "text", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ProfilePhotoURL = table.Column<string>(type: "text", nullable: true),
                     RefreshToken = table.Column<string>(type: "text", nullable: true),
-                    RefreshTokenExpires = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    RefreshTokenExpires = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -123,8 +125,8 @@ namespace SocialFilm.Persistance.Migrations
                     FilmId = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -145,8 +147,8 @@ namespace SocialFilm.Persistance.Migrations
                     UserId = table.Column<string>(type: "text", nullable: false),
                     FilmId = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -223,8 +225,8 @@ namespace SocialFilm.Persistance.Migrations
                     PostId = table.Column<string>(type: "text", nullable: false),
                     Message = table.Column<string>(type: "text", nullable: false),
                     PreviousCommentId = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -255,8 +257,8 @@ namespace SocialFilm.Persistance.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     PostId = table.Column<string>(type: "text", nullable: false),
                     PhotoPath = table.Column<string>(type: "text", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -268,6 +270,51 @@ namespace SocialFilm.Persistance.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Genres",
+                columns: new[] { "Id", "CreatedAt", "Name", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { "10402", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9288), "Music", null },
+                    { "10749", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9331), "Romance", null },
+                    { "10751", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9207), "Family", null },
+                    { "10752", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9450), "War", null },
+                    { "10770", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9408), "TV Movie", null },
+                    { "12", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9089), "Adventure", null },
+                    { "14", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9231), "Fantasy", null },
+                    { "16", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9107), "Animation", null },
+                    { "18", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9187), "Drama", null },
+                    { "27", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9268), "Horror", null },
+                    { "28", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9032), "Action", null },
+                    { "35", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9131), "Comedy", null },
+                    { "36", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9249), "History", null },
+                    { "37", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9469), "Western", null },
+                    { "53", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9427), "Thriller", null },
+                    { "80", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9150), "Crime", null },
+                    { "878", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9389), "Science Fiction", null },
+                    { "9648", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9307), "Mystery", null },
+                    { "99", new DateTime(2024, 3, 10, 19, 51, 12, 16, DateTimeKind.Local).AddTicks(9168), "Documentary", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "4de444e7-f5e1-4e43-be6b-badd43780c88", null, "Admin", "ADMIN" },
+                    { "ca739d3c-f1ed-48ab-aa84-18be21d88601", null, "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfilePhotoURL", "RefreshToken", "RefreshTokenExpires", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
+                values: new object[] { "763ce2a2-d5e9-4b7f-b73a-23d6d912cbc2", 0, new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "abdf22e2-0f63-40a8-b4a7-d7bb180ed6c4", new DateTime(2024, 3, 10, 19, 51, 12, 23, DateTimeKind.Local).AddTicks(8372), "admin@example.com", true, "Admin", "User", false, null, null, "ADMIN@EXAMPLE.COM", "ADMIN", "AQAAAAIAAYagAAAAEAGYFcaSqbaRGm4ywUGuer/l1YYMc+ziO4TCQtSh0bDjqRbNDdjon0aejPYFKm7OKQ==", null, false, null, null, null, "aee6d18f-368f-4a34-8de7-b7aad7ce24f9", false, null, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "4de444e7-f5e1-4e43-be6b-badd43780c88", "763ce2a2-d5e9-4b7f-b73a-23d6d912cbc2" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_PostId",

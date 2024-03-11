@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\corePackages\Core.Application\Core.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Roles\Queries\" />
+  </ItemGroup>
+
 </Project>

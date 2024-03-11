@@ -1,29 +1,22 @@
-﻿using Core.Persistence.Repositories;
+﻿using System.Linq.Expressions;
+using Core.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using SocialFilm.Application.Services.Repositories;
 using SocialFilm.Domain.Entities;
 using SocialFilm.Domain.Enums;
 using SocialFilm.Persistance.Context;
 
-namespace SocialFilm.Infrastructure.Repositories;
+namespace SocialFilm.Persistance.Repositories;
 
 public sealed class SavedFilmRepository : EfRepositoryBase<SavedFilm, AppDbContext>, ISavedFilmRepository
 {
+    private readonly AppDbContext _context;
+
     public SavedFilmRepository(AppDbContext context) : base(context)
     {
+        _context = context;
     }
-
-    // public override Task AddAsync(SavedFilm entity, CancellationToken cancellationToken = default)
-    // {
-    //     _context.Entry(entity.Film).State = EntityState.Unchanged;
-    //     return base.AddAsync(entity, cancellationToken);
-    // }
-
-    // public override void Update(SavedFilm entity)
-    // {
-    //     _context.Entry(entity.Film).State = EntityState.Unchanged;
-    //     base.Update(entity);
-    // }
-
+    
     public async Task<int> GetCountOfTodaySavedFilmsOfUserAsync(string userId)
     {
         DateTime currentTime = DateTime.Now;
@@ -35,4 +28,16 @@ public sealed class SavedFilmRepository : EfRepositoryBase<SavedFilm, AppDbConte
 
         return paginatedResult.Count;
     }
+
+    public async Task<SavedFilm?> GetDetailedAsync(Expression<Func<SavedFilm, bool>> predicate)
+    {
+        var savedFilm = await Context.Set<SavedFilm>()
+            .AsNoTracking() 
+            .Include(sf => sf.Film)
+            .ThenInclude(fd => fd.FilmDetailGenres)
+            .ThenInclude(fdg => fdg.Genre)
+            .FirstOrDefaultAsync(predicate);
+
+        return savedFilm;
+    }   
 }

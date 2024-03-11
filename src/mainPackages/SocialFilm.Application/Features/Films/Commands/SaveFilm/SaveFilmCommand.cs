@@ -8,15 +8,16 @@ using SocialFilm.Application.Services.Repositories;
 using SocialFilm.Domain.Entities;
 using SocialFilm.Domain.Enums;
 using Core.Application.Pipelines.Authorization;
+using SocialFilm.Application.Features.Films.Dtos;
 
 namespace SocialFilm.Application.Features.Films.Commands.SaveFilm;
 
 public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRequest
 {
-    public string FilmId { get; set; }
-    public string UserId { get; set; }
-    public SavedFilmStatus Status { get; set; }
-    public string[] Roles => new[] { "Admin", "User" };
+    public string FilmId { get; init; }
+    public string UserId { get; init; }
+    public SavedFilmStatus Status { get; init; }
+    public string[] Roles => new[] { "User" };
 
     public class SaveFilmCommandHandler : IRequestHandler<SaveFilmCommand, CreatedSavedFilmDto>
     {
@@ -38,7 +39,6 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
 
         public async Task<CreatedSavedFilmDto> Handle(SaveFilmCommand request, CancellationToken cancellationToken)
         {
-
             await _authBusinessRules.CheckUserExistsById(request.UserId);
             await _filmBusinessRules.CheckIfUserSavedMaximumThreeFilmsToday(request.UserId);
 
@@ -47,7 +47,7 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
             {
                 await _filmBusinessRules.CheckIfUserAlreadySavedThisFilm(request.UserId, request.FilmId, request.Status);
 
-                SavedFilm? savedFilmOfUser = await _savedFilmRepository.GetAsync(
+                SavedFilm? savedFilmOfUser = await _savedFilmRepository.GetDetailedAsync(
                     x => x.UserId == request.UserId &&
                     x.FilmId == request.FilmId
                 );
@@ -55,15 +55,22 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
                 if (savedFilmOfUser is null)
                 {
                     SavedFilm newSavedFilm = _mapper.Map<SavedFilm>(request);
-                    SavedFilm addedSavedFilm = await _savedFilmRepository.AddAsync(newSavedFilm);
+                    newSavedFilm.FilmId = request.FilmId;
+                    
+                    await _savedFilmRepository.AddAsync(newSavedFilm);
+                    
+                    SavedFilm addedSavedFilm = await _savedFilmRepository.GetDetailedAsync(x => x.Id == newSavedFilm.Id);
+
                     return _mapper.Map<CreatedSavedFilmDto>(addedSavedFilm);
                 }
                 else
                 {
-                    SavedFilm mappedSavedFilm = _mapper.Map<SavedFilm>(request);
-
-                    SavedFilm updatedSavedFilm = await _savedFilmRepository.UpdateAsync(mappedSavedFilm);
-                    return _mapper.Map<CreatedSavedFilmDto>(updatedSavedFilm);
+                    savedFilmOfUser.Status = request.Status;
+                    await _savedFilmRepository.UpdateAsync(savedFilmOfUser);
+                    
+                    SavedFilm updatedSavedFilm = (await _savedFilmRepository.GetDetailedAsync(x => x.Id == savedFilmOfUser.Id))!;
+                
+                    return _mapper.Map<CreatedSavedFilmDto>(updatedSavedFilm);   
                 }
 
             }
@@ -71,30 +78,23 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
             {
                 var fetchedFilm = await _tmdbApiClient.GetFilmByIdAsync(request.FilmId);
 
-                List<FilmDetailGenre> filmDetailGenres = fetchedFilm.Genre_ids.Select((genreId) => new FilmDetailGenre()
-                {
-                    FilmDetailId = fetchedFilm.Id.ToString(),
-                    GenreId = genreId.ToString()
-                }).ToList();
-
                 FilmDetail newFilmDetail = _mapper.Map<FilmDetail>(fetchedFilm);
-
+                await _filmDetailRepository.AddAsync(newFilmDetail);
+                
                 SavedFilm newSavedFilm = new SavedFilm()
                 {
+                    Film = newFilmDetail,
                     FilmId = newFilmDetail.Id,
                     Status = request.Status,
                     UserId = request.UserId
                 };
-
-                newFilmDetail.SavedFilms.Add(newSavedFilm);
-
-                await _filmDetailRepository.AddAsync(newFilmDetail);
-
-                return _mapper.Map<CreatedSavedFilmDto>(newSavedFilm);
+                
+                await _savedFilmRepository.AddAsync(newSavedFilm);
+                
+                SavedFilm addedSavedFilm = (await _savedFilmRepository.GetDetailedAsync(x => x.Id == newSavedFilm.Id))!;
+                
+                return _mapper.Map<CreatedSavedFilmDto>(addedSavedFilm);
             }
-
-
-
         }
     }
 

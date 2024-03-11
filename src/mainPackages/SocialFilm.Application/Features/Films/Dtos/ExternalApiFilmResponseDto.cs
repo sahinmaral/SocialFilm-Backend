@@ -1,6 +1,12 @@
 namespace SocialFilm.Application.Features.Films.Dtos;
 
-public class ExternalApiFilmResponseDto : ExternalApiFilmBaseResponseDto
+public sealed class ExternalApiFilmResponseDto : ExternalApiFilmBaseResponseDto
 {
-    public List<int> Genre_ids { get; set; } = new List<int>();
+    public List<ExternalApiFilmResponseGenreDto> Genres { get; init; } = new();
+}
+
+public sealed class ExternalApiFilmResponseGenreDto
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
 }

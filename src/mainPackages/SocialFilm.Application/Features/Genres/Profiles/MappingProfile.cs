@@ -1,5 +1,6 @@
 using AutoMapper;
 using Core.Persistence.Paging;
+using SocialFilm.Application.Features.Films.Dtos;
 using SocialFilm.Application.Features.Genres.Commands.CreateGenre;
 using SocialFilm.Application.Features.Genres.Commands.UpdateGenre;
 using SocialFilm.Application.Features.Genres.Dtos;
@@ -19,8 +20,6 @@ public class MappingProfile : Profile
         CreateMap<Genre, GenreListDto>();
 
         CreateMap<Genre, GenreGetByIdDto>();
-
-        CreateMap<Genre, ReadGenreDto>();
 
         CreateMap<UpdateGenreCommand, Genre>();
         CreateMap<Genre, UpdatedGenreDto>();

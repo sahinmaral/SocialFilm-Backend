@@ -8,10 +8,11 @@ namespace SocialFilm.Application.Features.Auths.Rules;
 public class AuthBusinessRules
 {
     private readonly UserManager<User> _userManager;
-
-    public AuthBusinessRules(UserManager<User> userManager)
+    private readonly RoleManager<Role> _roleManager;
+    public AuthBusinessRules(UserManager<User> userManager, RoleManager<Role> roleManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public async Task CheckUserExistsById(string id)
@@ -64,5 +65,12 @@ public class AuthBusinessRules
             throw new Exception("Please confirm your account via the e - mail sent to the e - mail address you registered with.");
 
         return Task.CompletedTask;
+    }
+
+    public async Task CheckIfRoleWithNameAlreadyExists(string role)
+    {
+        Role? userRole = await _roleManager.FindByNameAsync("User");
+        if (userRole is null)
+            throw new BusinessException("This role doesn't exist");
     }
 }

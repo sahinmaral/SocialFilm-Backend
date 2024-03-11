@@ -26,14 +26,14 @@ builder.Services.AddSecurityServices<AppDbContext>(builder.Configuration);
 
 var app = builder.Build();
 
+if (app.Environment.IsProduction())
+    app.ConfigureCustomExceptionMiddleware();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(opt => { opt.DisplayRequestDuration(); opt.SwaggerEndpoint("/swagger/v1/swagger.json", "SocialFilm"); });
 }
-
-if (app.Environment.IsProduction())
-    app.ConfigureCustomExceptionMiddleware();
 
 app.MapControllers();
 

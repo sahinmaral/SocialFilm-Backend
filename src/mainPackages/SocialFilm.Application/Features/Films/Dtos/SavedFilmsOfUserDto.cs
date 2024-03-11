@@ -1,10 +1,18 @@
 using SocialFilm.Application.Features.Genres.Dtos;
+using SocialFilm.Domain.Enums;
 
 namespace SocialFilm.Application.Features.Films.Dtos;
 
-public sealed class SearchFilmListDto
+public class SavedFilmsOfUserDto
 {
-    public string Id { get; set; } = null!;
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public SavedFilmStatus Status { get; set; }
+    public SavedFilmsOfUserFilmDetailDto FilmDetail { get; set; }
+}
+
+public class SavedFilmsOfUserFilmDetailDto
+{
     public string Name { get; set; } = null!;
     public string ReleaseYear { get; set; } = null!;
     public string Overview { get; set; } = null!;

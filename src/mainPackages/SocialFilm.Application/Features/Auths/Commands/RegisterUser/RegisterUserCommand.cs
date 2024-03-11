@@ -22,35 +22,38 @@ public partial class RegisterUserCommand : IRequest<RegisteredUserDto>
 
     public sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, RegisteredUserDto>
     {
+        private readonly RoleManager<Role> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IMapper _mapper;
 
-        public RegisterUserCommandHandler(UserManager<User> userManager, AuthBusinessRules authBusinessRules, IMapper mapper)
+        public RegisterUserCommandHandler(UserManager<User> userManager, AuthBusinessRules authBusinessRules, IMapper mapper, RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _authBusinessRules = authBusinessRules;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
         public async Task<RegisteredUserDto> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             await _authBusinessRules.CheckUserWithUsernameAlreadyExists(request.UserName);
             await _authBusinessRules.CheckUserWithEmailAlreadyExists(request.Email);
+            await _authBusinessRules.CheckIfRoleWithNameAlreadyExists("User");
 
             User newUser = _mapper.Map<User>(request);
 
-            IdentityResult identityResult = await _userManager.CreateAsync(newUser, request.Password);
-            if (identityResult.Succeeded)
+            IdentityResult identityResultOfCreatingUser = await _userManager.CreateAsync(newUser, request.Password);
+            if (identityResultOfCreatingUser.Succeeded)
             {
+                await _userManager.AddToRoleAsync(newUser, "User");
+                
                 return _mapper.Map<RegisteredUserDto>(newUser);
             }
-            else
-            {
-                var errors = identityResult.Errors.Select(error => error.Description).ToList();
 
-                throw new RegistrationFailedException(errors);
-            }
+            var errors = identityResultOfCreatingUser.Errors.Select(error => error.Description).ToList();
+
+            throw new RegistrationFailedException(errors);
         }
     }
 }

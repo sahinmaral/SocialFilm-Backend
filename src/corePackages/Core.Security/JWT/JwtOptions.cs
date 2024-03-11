@@ -8,15 +8,14 @@ public sealed class JwtOptions
     public string Issuer { get; set; } = null!;
     public string Audience { get; set; } = null!;
     public string SecurityKey { get; set; } = null!;
-    public int AccessTokenExpiration { get; set; }
     public int RefreshTokenExpiration { get; set; }
 }
 
-public sealed class JWTOptionsSetup : IConfigureOptions<JwtOptions>
+public sealed class JwtOptionsSetup : IConfigureOptions<JwtOptions>
 {
     private readonly IConfiguration _configuration;
 
-    public JWTOptionsSetup(IConfiguration configuration)
+    public JwtOptionsSetup(IConfiguration configuration)
     {
         _configuration = configuration;
     }

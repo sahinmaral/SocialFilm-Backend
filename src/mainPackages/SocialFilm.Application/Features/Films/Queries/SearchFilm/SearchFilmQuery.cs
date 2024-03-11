@@ -29,7 +29,7 @@ public partial class SearchFilmQuery : IRequest<SearchFilmListModel>
 
         public async Task<SearchFilmListModel> Handle(SearchFilmQuery request, CancellationToken cancellationToken)
         {
-            ExternalApiSearchFilmResponseDto externalApiSearchFilmResponseDto
+            ExternalApiSearchFilmsResponseDto externalApiSearchFilmResponseDto
                             = await _apiClient.SearchFilmsByQueryAsync(request.Name, request.Page, request.ReleaseYear);
 
             List<SearchFilmListDto> mappedSearchFilmResponseModelData = _mapper.Map<List<SearchFilmListDto>>(externalApiSearchFilmResponseDto.Results);

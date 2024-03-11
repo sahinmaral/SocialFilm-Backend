@@ -16,7 +16,7 @@ public class TMDBApiClient : ITMDBApiClient
         });
     }
 
-    public async Task<ExternalApiSearchFilmResponseDto> SearchFilmsByQueryAsync(string name, int page, string? releaseYear)
+    public async Task<ExternalApiSearchFilmsResponseDto> SearchFilmsByQueryAsync(string name, int page, string? releaseYear)
     {
         return await ApiClient.SearchFilms(name, page, releaseYear);
     }
