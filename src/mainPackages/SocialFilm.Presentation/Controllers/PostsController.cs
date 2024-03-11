@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SocialFilm.Application.Features.Films.Commands.SaveFilm;
 using SocialFilm.Application.Features.Films.Dtos;
 using SocialFilm.Application.Features.Posts.Commands.CreatePost;
+using SocialFilm.Application.Features.Posts.Commands.DeletePost;
 using SocialFilm.Application.Features.Posts.Dtos;
 using SocialFilm.WebAPI.Controllers.Common;
 
@@ -15,5 +16,16 @@ public class PostsController : BaseController
     {
         CreatedPostDto response = await mediator.Send(request);
         return Created("", response);
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete([FromRoute] string id)
+    {
+        DeletePostCommand request = new()
+        {
+            Id = id
+        };
+        await mediator.Send(request);
+        return NoContent();
     }
 }

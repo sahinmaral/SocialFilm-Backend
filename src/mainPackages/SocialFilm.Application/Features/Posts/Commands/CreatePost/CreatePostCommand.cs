@@ -14,6 +14,7 @@ namespace SocialFilm.Application.Features.Posts.Commands.CreatePost;
 
 public class CreatePostCommand : IRequest<CreatedPostDto>
 {
+    public string[] Roles => new[] { "User" };
     public string UserId { get; init; }
     public string FilmId { get; init; }
     public string Content { get; init; }
@@ -56,6 +57,7 @@ public class CreatePostCommand : IRequest<CreatedPostDto>
 
             #endregion
 
+            //FIX: Eger veritabaninda bir problem olursa yuklenen resimlerin silinmesi gerekir.
             var uploadTasks = request.Photos.Select(file => _cloudinaryService.UploadImageAsync(file, cancellationToken));
             var uploadedImageResults = await Task.WhenAll(uploadTasks);
 

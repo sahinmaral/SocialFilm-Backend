@@ -13,7 +13,7 @@ using SocialFilm.Application.Features.Films.Dtos;
 
 namespace SocialFilm.Application.Features.Films.Commands.SaveFilm;
 
-public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRequest
+public class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRequest
 {
     public string FilmId { get; init; }
     public string UserId { get; init; }

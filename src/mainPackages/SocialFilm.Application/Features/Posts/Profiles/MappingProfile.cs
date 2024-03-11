@@ -13,5 +13,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.PostPhotos.Select(pp => pp.PhotoPath)));
 
         CreateMap<CreatePostCommand, Post>();
+        CreateMap<Post, DeletedPostDto>();
+        
+        
     }
 }
