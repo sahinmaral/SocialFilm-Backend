@@ -1,4 +1,5 @@
 using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Persistence.Dynamic;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,11 @@ using SocialFilm.Domain.Enums;
 
 namespace SocialFilm.Application.Features.Films.Queries.GetSavedFilmsOfUser;
 
-public class GetSavedFilmsOfUserQuery : IRequest<SavedFilmsOfUserListModel>
+public class GetSavedFilmsOfUserQuery : IRequest<SavedFilmsOfUserListModel>, ISecuredRequest
 {
     public string UserId { get; set; }
     public SavedFilmStatus SavedFilmStatus { get; set; }
-    
+    public string[] Roles => new[] { "User", "Admin" };
     public class GetSavedFilmsOfUserQueryHandler : IRequestHandler<GetSavedFilmsOfUserQuery, SavedFilmsOfUserListModel>
     {
         private readonly ISavedFilmRepository _savedFilmRepository;

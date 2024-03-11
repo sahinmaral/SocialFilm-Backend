@@ -5,6 +5,7 @@ namespace SocialFilm.Application.Features.Films.Dtos;
 
 public class SavedFilmsOfUserDto
 {
+    public string Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public SavedFilmStatus Status { get; set; }
@@ -13,6 +14,7 @@ public class SavedFilmsOfUserDto
 
 public class SavedFilmsOfUserFilmDetailDto
 {
+    public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
     public string ReleaseYear { get; set; } = null!;
     public string Overview { get; set; } = null!;

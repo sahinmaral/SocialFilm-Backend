@@ -22,6 +22,15 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
         return await Context.Set<TEntity>().FirstOrDefaultAsync(predicate);
     }
 
+    public async Task<TEntity?> GetDetailedAsync(Expression<Func<TEntity, bool>> predicate,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include, bool enableTracking = true)
+    {
+        IQueryable<TEntity> queryable = Query();
+        if (!enableTracking) queryable = queryable.AsNoTracking();
+        queryable = include(queryable);
+        return await queryable.FirstOrDefaultAsync(predicate);
+    }
+
     public async Task<IPaginate<TEntity>> GetListAsync(Expression<Func<TEntity, bool>>? predicate = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy =
             null,
@@ -86,6 +95,15 @@ public class EfRepositoryBase<TEntity, TContext> : IAsyncRepository<TEntity>, IR
     public TEntity? Get(Expression<Func<TEntity, bool>> predicate)
     {
         return Context.Set<TEntity>().FirstOrDefault(predicate);
+    }
+    
+    public TEntity? GetDetailed(Expression<Func<TEntity, bool>> predicate,
+        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include, bool enableTracking = true)
+    {
+        IQueryable<TEntity> queryable = Query();
+        if (!enableTracking) queryable = queryable.AsNoTracking();
+        queryable = include(queryable);
+        return queryable.FirstOrDefault(predicate);
     }
 
     public IPaginate<TEntity> GetList(Expression<Func<TEntity, bool>>? predicate = null,

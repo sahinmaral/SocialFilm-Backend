@@ -8,6 +8,7 @@ using SocialFilm.Application.Services.Repositories;
 using SocialFilm.Domain.Entities;
 using SocialFilm.Domain.Enums;
 using Core.Application.Pipelines.Authorization;
+using Microsoft.EntityFrameworkCore;
 using SocialFilm.Application.Features.Films.Dtos;
 
 namespace SocialFilm.Application.Features.Films.Commands.SaveFilm;
@@ -47,7 +48,7 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
             {
                 await _filmBusinessRules.CheckIfUserAlreadySavedThisFilm(request.UserId, request.FilmId, request.Status);
 
-                SavedFilm? savedFilmOfUser = await _savedFilmRepository.GetDetailedAsync(
+                SavedFilm? savedFilmOfUser = await _savedFilmRepository.GetAsync(
                     x => x.UserId == request.UserId &&
                     x.FilmId == request.FilmId
                 );
@@ -59,7 +60,14 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
                     
                     await _savedFilmRepository.AddAsync(newSavedFilm);
                     
-                    SavedFilm addedSavedFilm = await _savedFilmRepository.GetDetailedAsync(x => x.Id == newSavedFilm.Id);
+                    SavedFilm addedSavedFilm = (await _savedFilmRepository.GetDetailedAsync(
+                        predicate: x => x.Id == newSavedFilm.Id,
+                        include: qsf =>                     
+                            qsf.Include(sf => sf.Film)
+                                .ThenInclude(fd => fd.FilmDetailGenres)
+                                .ThenInclude(fdg => fdg.Genre),
+                        enableTracking: false
+                    ))!;
 
                     return _mapper.Map<CreatedSavedFilmDto>(addedSavedFilm);
                 }
@@ -68,7 +76,14 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
                     savedFilmOfUser.Status = request.Status;
                     await _savedFilmRepository.UpdateAsync(savedFilmOfUser);
                     
-                    SavedFilm updatedSavedFilm = (await _savedFilmRepository.GetDetailedAsync(x => x.Id == savedFilmOfUser.Id))!;
+                    SavedFilm updatedSavedFilm = (await _savedFilmRepository.GetDetailedAsync(
+                        predicate: x => x.Id == savedFilmOfUser.Id,
+                        include: qsf =>                     
+                            qsf.Include(sf => sf.Film)
+                                .ThenInclude(fd => fd.FilmDetailGenres)
+                                .ThenInclude(fdg => fdg.Genre),
+                        enableTracking: false
+                    ))!;
                 
                     return _mapper.Map<CreatedSavedFilmDto>(updatedSavedFilm);   
                 }
@@ -91,7 +106,14 @@ public partial class SaveFilmCommand : IRequest<CreatedSavedFilmDto>, ISecuredRe
                 
                 await _savedFilmRepository.AddAsync(newSavedFilm);
                 
-                SavedFilm addedSavedFilm = (await _savedFilmRepository.GetDetailedAsync(x => x.Id == newSavedFilm.Id))!;
+                SavedFilm addedSavedFilm = (await _savedFilmRepository.GetDetailedAsync(
+                    predicate: x => x.Id == newSavedFilm.Id,
+                    include: qsf =>                     
+                        qsf.Include(sf => sf.Film)
+                            .ThenInclude(fd => fd.FilmDetailGenres)
+                            .ThenInclude(fdg => fdg.Genre),
+                    enableTracking: false
+                ))!;
                 
                 return _mapper.Map<CreatedSavedFilmDto>(addedSavedFilm);
             }

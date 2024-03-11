@@ -1,15 +1,16 @@
 using SocialFilm.Application.Features.Genres.Dtos;
-using SocialFilm.Domain.Enums;
 
-namespace SocialFilm.Application.Features.Films.Dtos;
+namespace SocialFilm.Application.Features.Posts.Dtos;
 
-public sealed class CreatedSavedFilmDto
+public class CreatedPostDto
 {
-    public SavedFilmStatus Status { get; init; }
-    public CreatedSavedFilmDetailDto FilmDetail { get; init; }
-};
+    public string Id { get; set; }
+    public CreatedPostFilmDetailDto FilmDetail { get; set; }
+    public string Content { get; set; }
+    public List<string> Photos { get; set; }
+}
 
-public sealed class CreatedSavedFilmDetailDto
+public class CreatedPostFilmDetailDto
 {
     public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;

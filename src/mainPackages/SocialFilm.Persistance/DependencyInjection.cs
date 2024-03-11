@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialFilm.Application.Services.Repositories;
-using SocialFilm.Infrastructure.Repositories;
 using SocialFilm.Persistance.Context;
 using SocialFilm.Persistance.Repositories;
 

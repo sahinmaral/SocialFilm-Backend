@@ -4,6 +4,7 @@ using SocialFilm.Application.Features.Films.Commands.SaveFilm;
 using SocialFilm.Application.Features.Films.Models;
 using SocialFilm.Application.Features.Films.Dtos;
 using SocialFilm.Application.Features.Genres.Dtos;
+using SocialFilm.Application.Features.Posts.Dtos;
 using SocialFilm.Domain.Entities;
 
 namespace SocialFilm.Application.Features.Films.Profiles;
@@ -63,14 +64,10 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.FilmDetailGenres));
         
         CreateMap<SavedFilm, SavedFilmsOfUserDto>()
-            // .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Film.Name))
-            // .ForMember(dest => dest.ReleaseYear, opt => opt.MapFrom(src => src.Film.ReleaseYear))
-            // .ForMember(dest => dest.BackdropPath, opt => opt.MapFrom(src => src.Film.BackdropPath))
-            // .ForMember(dest => dest.PosterPath, opt => opt.MapFrom(src => src.Film.PosterPath))
-            // .ForMember(dest => dest.Overview, opt => opt.MapFrom(src => src.Film.Overview))
             .ForMember(dest => dest.FilmDetail, opt => opt.MapFrom(src => src.Film));
-        
-        
+
+        CreateMap<FilmDetail, CreatedPostFilmDetailDto>()
+            .ForMember(dest => dest.Genres, opt => opt.MapFrom(src => src.FilmDetailGenres));
         
         CreateMap<ExternalApiFilmResponseGenreDto, Genre>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()));

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SocialFilm.Application.Features.Auths.Rules;
 using SocialFilm.Application.Features.Films.Rules;
 using SocialFilm.Application.Features.Genres.Rules;
+using SocialFilm.Application.Features.Posts.Rules;
 using SocialFilm.Application.Features.Roles.Rules;
 
 namespace SocialFilm.Application;
@@ -29,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<FilmBusinessRules>();
         services.AddScoped<AuthBusinessRules>();
         services.AddScoped<RoleBusinessRules>();
+        services.AddScoped<PostBusinessRules>();
 
         return services;
     }

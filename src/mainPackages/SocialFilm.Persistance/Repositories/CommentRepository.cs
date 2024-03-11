@@ -4,7 +4,7 @@ using SocialFilm.Application.Services.Repositories;
 using SocialFilm.Domain.Entities;
 using SocialFilm.Persistance.Context;
 
-namespace SocialFilm.Infrastructure.Repositories;
+namespace SocialFilm.Persistance.Repositories;
 
 public sealed class CommentRepository : EfRepositoryBase<Comment, AppDbContext>, ICommentRepository
 {
