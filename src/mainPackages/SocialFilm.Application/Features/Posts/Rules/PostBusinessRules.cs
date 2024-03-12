@@ -8,10 +8,19 @@ namespace SocialFilm.Application.Features.Posts.Rules;
 public class PostBusinessRules
 {
     private readonly ISavedFilmRepository _savedFilmRepository;
-
-    public PostBusinessRules(ISavedFilmRepository savedFilmRepository)
+    private readonly IPostRepository _postRepository;
+    public PostBusinessRules(ISavedFilmRepository savedFilmRepository, IPostRepository postRepository)
     {
         _savedFilmRepository = savedFilmRepository;
+        _postRepository = postRepository;
+    }
+    
+    public async Task CheckPostExistsById(string id)
+    {
+        Post? foundPost = await _postRepository.GetAsync(x => x.Id == id);
+
+        if (foundPost is null)
+            throw new EntityNotFoundException("Post does not found");
     }
 
     public async Task CheckIfUserWatchedFilmAboutToPost(string userId, string filmId)

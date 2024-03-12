@@ -4,6 +4,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using SocialFilm.Application.Features.Auths.Rules;
+using SocialFilm.Application.Features.Comments.Rules;
 using SocialFilm.Application.Features.Films.Rules;
 using SocialFilm.Application.Features.Genres.Rules;
 using SocialFilm.Application.Features.Posts.Rules;
@@ -26,6 +27,7 @@ public static class DependencyInjection
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
 
+        services.AddScoped<CommentBusinessRules>();
         services.AddScoped<GenreBusinessRules>();
         services.AddScoped<FilmBusinessRules>();
         services.AddScoped<AuthBusinessRules>();

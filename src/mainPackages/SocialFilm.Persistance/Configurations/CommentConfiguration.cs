@@ -13,8 +13,8 @@ public sealed class CommentConfiguration : IEntityTypeConfiguration<Comment>
         builder.HasKey(x => x.Id);
 
         builder.HasMany(c => c.SubComments)
-            .WithOne(c => c.PreviousComment)
-            .HasForeignKey(c => c.PreviousCommentId);
+            .WithOne(c => c.ParentComment)
+            .HasForeignKey(c => c.ParentCommentId);
 
         builder.HasOne(c => c.User)
             .WithMany()

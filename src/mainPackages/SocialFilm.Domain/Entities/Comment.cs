@@ -9,7 +9,7 @@ public class Comment : Entity
     public string UserId { get; set; } = null!;
     public string PostId { get; set; } = null!;
     public string Message { get; set; } = null!;
-    public string? PreviousCommentId { get; set; }
-    public Comment? PreviousComment { get; set; }
-    public List<Comment> SubComments { get; set; } = new List<Comment>();
+    public string? ParentCommentId { get; set; }
+    public Comment? ParentComment { get; set; }
+    public List<Comment> SubComments { get; set; } = new();
 }
