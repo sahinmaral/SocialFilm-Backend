@@ -4,9 +4,11 @@ namespace SocialFilm.Domain.Entities;
 
 public class Post : Entity
 {
+    public FilmDetail Film { get; set; }
     public string FilmId { get; set; } = null!;
     public string UserId { get; set; } = null!;
     public string Content { get; set; } = null!;
     public List<PostPhoto> PostPhotos { get; set; } = new();
     public List<Comment> Comments { get; set; } = new();
+    
 }

@@ -42,7 +42,7 @@ public class DeletePostCommand : IRequest<DeletedPostDto>, ISecuredRequest
                 );
 
             if (foundPost is null)
-                throw new BusinessException("Post could not found");
+                throw new EntityNotFoundException("Post could not found");
 
             //FIX: Fotograflardan bazilari eger bulunmazsa bu islemin iptal edilmesi gerekir. Transaction gerekebilir.
             //FIX: Veritabanindan silerken hata alirsak fotograf silme islemlerinin geri alinmasi gerekir. Transaction gerekebilir.
