@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Comments\Commands\DeleteComment\" />
     <Folder Include="Features\Roles\Queries\" />
   </ItemGroup>
 

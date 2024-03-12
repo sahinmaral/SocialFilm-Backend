@@ -33,7 +33,7 @@ public class GetAllByPostIdCommand : IRequest<CommentsByPostIdListModel>
             await _postBusinessRules.CheckPostExistsById(request.Id);
 
             var parentComments = await _commentRepository.GetListAsync(
-                predicate: c => c.PostId == request.Id && c.ParentCommentId == null,
+                predicate: c => c.PostId == request.Id && c.ParentCommentId == null && c.DeletedAt == null,
                 include: qc => qc.Include(c => c.User),
                 orderBy: qc => qc.OrderByDescending(c => c.CreatedAt)
             );
@@ -44,7 +44,7 @@ public class GetAllByPostIdCommand : IRequest<CommentsByPostIdListModel>
             {
                 var subComments = _commentRepository
                     .GetList(
-                        predicate: c => c.ParentCommentId == parentComment.Id,
+                        predicate: c => c.ParentCommentId == parentComment.Id && c.DeletedAt == null,
                         include: qc => qc.Include(c => c.User),
                         orderBy: qc => qc.OrderByDescending(c => c.CreatedAt)
                     );

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SocialFilm.Application.Features.Comments.Commands.CreateComment;
+using SocialFilm.Application.Features.Comments.Commands.DeleteComment;
 using SocialFilm.Application.Features.Comments.Dtos;
 using SocialFilm.Application.Features.Comments.Models;
 using SocialFilm.Application.Features.Comments.Queries.GetAllByParentCommentId;
@@ -29,5 +30,16 @@ public class CommentsController : BaseController
     {
         CommentsByPostIdListModel comments = await mediator.Send(request);
         return Ok(comments);
+    }
+    
+    [HttpPost("Delete/{id}")]
+    public async Task<IActionResult> Delete([FromRoute] string id)
+    {
+        DeleteCommentCommand request = new DeleteCommentCommand()
+        {
+            Id = id
+        };
+        DeletedCommentDto comment = await mediator.Send(request);
+        return NoContent();
     }
 }

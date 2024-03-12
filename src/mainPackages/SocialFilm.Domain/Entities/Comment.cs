@@ -12,4 +12,5 @@ public class Comment : Entity
     public string? ParentCommentId { get; set; }
     public Comment? ParentComment { get; set; }
     public List<Comment> SubComments { get; set; } = new();
+    public DateTime? DeletedAt { get; set; }
 }

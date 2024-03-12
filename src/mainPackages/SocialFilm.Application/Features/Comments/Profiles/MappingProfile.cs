@@ -28,5 +28,6 @@ public class MappingProfile : Profile
         CreateMap<CreateCommentCommand, Comment>();
             
         CreateMap<Comment, CreatedCommentDto>();
+        CreateMap<Comment, DeletedCommentDto>();
     }
 }

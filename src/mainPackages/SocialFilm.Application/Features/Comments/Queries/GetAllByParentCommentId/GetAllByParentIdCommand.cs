@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ public class GetAllByParentIdCommand : IRequest<CommentsByParentIdListModel>
 
             var subComments = await _commentRepository
                 .GetListAsync(
-                    predicate: c => c.ParentCommentId == request.Id,
+                    predicate: c => c.ParentCommentId == request.Id && c.DeletedAt == null,
                     include: qc => qc.Include(c => c.User),
                     orderBy: qc => qc.OrderByDescending(c => c.CreatedAt),
                     cancellationToken: cancellationToken,
