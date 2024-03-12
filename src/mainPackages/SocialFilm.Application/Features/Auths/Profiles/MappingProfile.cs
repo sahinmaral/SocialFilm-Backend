@@ -1,5 +1,6 @@
 using AutoMapper;
 using Core.Security.Entities;
+using Core.Security.JWT;
 using SocialFilm.Application.Features.Auths.Commands.RegisterUser;
 using SocialFilm.Application.Features.Auths.Dtos;
 
