@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SocialFilm.Persistence.Utilities;
+using SocialFilm.Persistance.Utilities;
 
 namespace SocialFilm.Persistance.Context;
 public sealed class AppDbContext : IdentityDbContext<User, Role, string>

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SocialFilm.WebAPI.Controllers.Common;
+namespace SocialFilm.Presentation.Controllers.Common;
 
 
 [Route("api/[controller]")]

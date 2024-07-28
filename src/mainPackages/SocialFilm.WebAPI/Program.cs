@@ -22,7 +22,7 @@ builder.Services
     .AddApplication()
     .AddPresentation();
 
-builder.Services.AddSecurityServices<AppDbContext>(builder.Configuration);
+builder.Services.AddSecurityServices<AppDbContext>();
 
 var app = builder.Build();
 

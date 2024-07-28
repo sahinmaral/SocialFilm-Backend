@@ -8,7 +8,7 @@ using SocialFilm.Application.Features.Posts.Commands.DeletePost;
 using SocialFilm.Application.Features.Posts.Dtos;
 using SocialFilm.Application.Features.Posts.Queries.GetAllByUserId;
 using SocialFilm.Application.Features.Posts.Queries.GetById;
-using SocialFilm.WebAPI.Controllers.Common;
+using SocialFilm.Presentation.Controllers.Common;
 
 namespace SocialFilm.Presentation.Controllers;
 

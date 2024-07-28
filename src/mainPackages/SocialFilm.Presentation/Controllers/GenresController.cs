@@ -7,7 +7,7 @@ using SocialFilm.Application.Features.Genres.Commands.CreateGenres;
 using SocialFilm.Application.Features.Genres.Commands.UpdateGenre;
 using SocialFilm.Application.Features.Genres.Dtos;
 using SocialFilm.Application.Features.Genres.Models;
-using SocialFilm.WebAPI.Controllers.Common;
+using SocialFilm.Presentation.Controllers.Common;
 
 public class GenresController : BaseController
 {

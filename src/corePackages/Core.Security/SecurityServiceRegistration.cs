@@ -1,18 +1,16 @@
 ﻿using Core.Security.Encryption;
 using Core.Security.Entities;
 using Core.Security.JWT;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Security;
 
 public static class SecurityServiceRegistration
 {
-    public static IServiceCollection AddSecurityServices<TContext>(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddSecurityServices<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
         services.ConfigureOptions<JwtOptionsSetup>();

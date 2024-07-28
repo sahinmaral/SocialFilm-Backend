@@ -5,7 +5,7 @@ using SocialFilm.Application.Features.Comments.Dtos;
 using SocialFilm.Application.Features.Comments.Models;
 using SocialFilm.Application.Features.Comments.Queries.GetAllByParentCommentId;
 using SocialFilm.Application.Features.Comments.Queries.GetAllByPostId;
-using SocialFilm.WebAPI.Controllers.Common;
+using SocialFilm.Presentation.Controllers.Common;
 
 namespace SocialFilm.Presentation.Controllers;
 

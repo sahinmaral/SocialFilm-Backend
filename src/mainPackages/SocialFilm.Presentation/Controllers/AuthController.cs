@@ -3,7 +3,7 @@ using SocialFilm.Application.Features.Auths.Commands.LoginUser;
 using SocialFilm.Application.Features.Auths.Commands.RefreshToken;
 using SocialFilm.Application.Features.Auths.Commands.RegisterUser;
 using SocialFilm.Application.Features.Auths.Dtos;
-using SocialFilm.WebAPI.Controllers.Common;
+using SocialFilm.Presentation.Controllers.Common;
 
 namespace SocialFilm.Presentation.Controllers;
 

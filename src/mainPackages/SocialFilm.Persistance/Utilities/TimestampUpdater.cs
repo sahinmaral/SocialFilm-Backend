@@ -3,7 +3,7 @@ using Core.Security.Entities;
 using Microsoft.EntityFrameworkCore;
 using SocialFilm.Persistance.Context;
 
-namespace SocialFilm.Persistence.Utilities;
+namespace SocialFilm.Persistance.Utilities;
 
 public static class TimestampUpdater
 {
